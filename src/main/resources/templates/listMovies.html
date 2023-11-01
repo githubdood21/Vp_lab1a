@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Movie Ticket Order page - Welcome and choose a Movie</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Movie Ticket Shop App</h1>
+</header>
+<main>
+    <form id="SearchForm" th:method="POST" th:action="@{/}">
+        <input type="text" id="SearchMovie" name="SearchMovie">
+        <input form="SearchForm" type="submit" value="Submit">
+    </form>
+    <form id="MovieForm" th:method="POST" th:action="@{/ticketOrder}">
+        <h2>Choose movie:</h2>
+        <!-- Display radio buttons for each movie,
+                the value should be the movie title
+                and the displayed text should be Title: <movie_title>, Summary:<movie_summary>, Rating: <movie_rating> -->
+        <ul>
+            <li th:each="Movie : ${Movies}">
+                <input name="MovieSelect" type="radio" th:value="${Movie.getTitle()}">
+                Title: <th:block th:text="${Movie.getTitle()}"></th:block>,
+                Summary: <th:block th:text="${Movie.getSummary()}"></th:block>,
+                Rating: <th:block th:text="${Movie.getRating()}"></th:block></li>
+        </ul>
+        <h2>Choose number of tickets:</h2>
+        <input type="number" name="numTickets" min="1" max="10"><br/>
+        <br/>
+        <input form="MovieForm" type="submit" value="Submit">
+    </form>
+</main>
+</body>
+</html>
