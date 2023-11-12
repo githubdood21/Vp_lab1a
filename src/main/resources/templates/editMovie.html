@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="EditMovieForm" th:method="POST" th:action="@{/movies/edit/{id} (id=${Movie.getId()})}">
+    <p>
+        <label for="Title">Movie Title:</label>
+        <input name="Title" required id="Title" th:value="${Movie.getTitle()}" type="text"/>
+    </p>
+
+    <p>
+        <label for="Summary">Movie Summary:</label>
+        <input name="Summary" required id="Summary" th:value="${Movie.getSummary()}" type="text"/>
+    </p>
+
+    <p>
+        <label for="Rating">Movie Rating:</label>
+        <input name="Rating" required id="Rating" th:value="${Movie.getRating()}" max="5" min="0" type="number"  step=".1"/>
+    </p>
+
+    <p>
+        <label for="Production">Production Studio:
+            <select name="Production" id="Production">
+                <option th:selected="${studio.getId() == Movie.getProduction().getId()}" th:each="studio : ${Studios}" th:value="${studio.getId()}">
+                    <th:block th:text="${studio.getName()}"></th:block>
+                </option>
+            </select>
+        </label>
+    </p>
+
+    <p>
+        <input form="EditMovieForm" type="submit" value="Submit"/>
+    </p>
+</form>
+</body>
+</html>

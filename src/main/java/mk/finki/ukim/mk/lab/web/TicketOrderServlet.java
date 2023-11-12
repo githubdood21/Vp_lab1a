@@ -15,7 +15,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name="order", urlPatterns = "/ticketOrder")
+@WebServlet(name="order", urlPatterns = "/servlet/ticketOrder")
 public class TicketOrderServlet extends HttpServlet {
     private final MovieService movieService;
     private final TicketOrderService ticketOrderService;
@@ -45,6 +45,6 @@ public class TicketOrderServlet extends HttpServlet {
         context.setVariable("Movie", model);
         context.setVariable("Tickets",numTickets);
 
-        this.springTemplateEngine.process("orderConfirmation.html", context, resp.getWriter());
+        this.springTemplateEngine.process("orderConfirmationServlet.html", context, resp.getWriter());
     }
 }

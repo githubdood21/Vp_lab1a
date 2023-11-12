@@ -17,7 +17,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name="Home", urlPatterns = "")
+@WebServlet(name="Home", urlPatterns = "/servlet")
 public class MovieListServlet extends HttpServlet {
     private final MovieService movieService;
     private final SpringTemplateEngine springTemplateEngine;
@@ -36,7 +36,7 @@ public class MovieListServlet extends HttpServlet {
         context.setVariable("test", 1);
         context.setVariable("Movies", movieService.listAll());
 
-        this.springTemplateEngine.process("listMovies.html", context, resp.getWriter());
+        this.springTemplateEngine.process("listMoviesServlet.html", context, resp.getWriter());
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,6 +47,6 @@ public class MovieListServlet extends HttpServlet {
 
         context.setVariable("Movies", movieService.searchMovies(movieSelect));
 
-        this.springTemplateEngine.process("listMovies.html", context, resp.getWriter());
+        this.springTemplateEngine.process("listMoviesServlet.html", context, resp.getWriter());
     }
 }

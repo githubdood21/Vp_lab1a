@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form id="AddMovieForm" th:method="POST" th:action="@{/movies/add}">
+        <p>
+            <label for="Title">Movie Title:</label>
+            <input name="Title" required id="Title" type="text"/>
+        </p>
+
+        <p>
+            <label for="Summary">Movie Summary:</label>
+            <input name="Summary" required id="Summary" type="text"/>
+        </p>
+
+        <p>
+            <label for="Rating">Movie Rating:</label>
+            <input name="Rating" required id="Rating" max="5" min="0" type="number"  step=".1"/>
+        </p>
+
+        <p>
+            <label for="Production">Production Studio:
+                <select name="Production" id="Production">
+                    <option th:each="studio : ${Studios}" th:value="${studio.getId()}">
+                        <th:block th:text="${studio.getName()}"></th:block>
+                    </option>
+                </select>
+            </label>
+        </p>
+
+        <p>
+            <input form="AddMovieForm" type="submit" value="Submit"/>
+        </p>
+    </form>
+</body>
+</html>

@@ -15,11 +15,11 @@
     <h1>Welcome to our Movie Ticket Shop App</h1>
 </header>
 <main>
-    <form id="SearchForm" th:method="POST" th:action="@{/movies}">
+    <form id="SearchForm" th:method="POST" th:action="@{/servlet}">
         <input type="text" id="SearchMovie" name="SearchMovie">
         <input form="SearchForm" type="submit" value="Submit">
     </form>
-    <form id="MovieForm" th:method="POST" th:action="@{/ticketOrder}">
+    <form id="MovieForm" th:method="POST" th:action="@{/servlet/ticketOrder}">
         <h2>Choose movie:</h2>
         <!-- Display radio buttons for each movie,
                 the value should be the movie title
@@ -29,18 +29,13 @@
                 <input name="MovieSelect" type="radio" th:value="${Movie.getTitle()}">
                 Title: <th:block th:text="${Movie.getTitle()}"></th:block>,
                 Summary: <th:block th:text="${Movie.getSummary()}"></th:block>,
-                Rating: <th:block th:text="${Movie.getRating()}"></th:block>,
-                Production: <th:block th:text="${Movie.getProduction().getName()}"></th:block>,
-                <a th:href="@{'/movies/edit/{id}' (id=${Movie.getId()})}">Edit</a>,
-                <a th:href="@{'/movies/delete/{id}' (id=${Movie.getId()})}">Delete</a></li>
+                Rating: <th:block th:text="${Movie.getRating()}"></th:block></li>
         </ul>
         <h2>Choose number of tickets:</h2>
         <input type="number" name="numTickets" min="1" max="10"><br/>
         <br/>
         <input form="MovieForm" type="submit" value="Submit">
     </form>
-    <a href="movies/add">Add a Movie</a>
-    <p th:if="${hasError}" th:text="${errormessage}" style="color:red;"></p>
 </main>
 </body>
 </html>
