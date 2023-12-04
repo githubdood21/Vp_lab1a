@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Cart is set for the date <th:block th:text="${cart.getDateCreated().toString()}"></th:block>, and has the following items:</h2>
+<!-- Display radio buttons for each movie,
+        the value should be the movie title
+        and the displayed text should be Title: <movie_title>, Summary:<movie_summary>, Rating: <movie_rating> -->
+<ul>
+    <li th:each="order : ${cart.getTicketOrders()}">
+        <a th:href="'/ticketOrder/' + ${order.getId()}">Ticket</a>
+        Movie Title: <th:block th:text="${order.getMovieTitle()}"></th:block>,
+        Number of tickets: <th:block th:text="${order.getNumberOfTickets()}"></th:block>,
+        Order placed by: <th:block th:text="${order.getUser().getUsername()}"></th:block>
+    </li>
+</ul>
+<form id="BuyForm" th:method="POST" th:action="@{/cart/buy}">
+    <input name="CartId" required id="CartId" type="hidden" th:value="${cart.getId()}">
+    <input form="BuyForm" type="submit" value="Buy">
+</form>
+</body>
+</html>

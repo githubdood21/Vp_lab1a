@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td><b>Client Name </b></td>
-            <td>Petko Petkov</td>
+            <td><th:block th:if="${Ticket.getUser() != null}" th:text="${Ticket.getUser().getName()}"></th:block></td>
         </tr>
         <tr>
             <td><b>Client IP Address</b></td>
@@ -38,11 +38,11 @@
         </tr>
         <tr>
             <td><b>Ticket for Movie</b></td>
-            <td><th:block th:text="${Movie.getTitle()}"></th:block></td>
+            <td><th:block th:text="${Ticket.getMovieTitle()}"></th:block></td>
         </tr>
         <tr>
             <td><b>Number of tickets</b></td>
-            <td><th:block th:text="${Tickets}"></th:block></td>
+            <td><th:block th:text="${Ticket.getNumberOfTickets()}"></th:block></td>
         </tr>
     </table>
 </section>

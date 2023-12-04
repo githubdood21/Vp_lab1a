@@ -2,8 +2,7 @@ package mk.finki.ukim.mk.lab.web.controller;
 
 
 import jakarta.servlet.http.HttpServletRequest;
-import mk.finki.ukim.mk.lab.repository.MovieRepository;
-import mk.finki.ukim.mk.lab.repository.ProductionRepository;
+import mk.finki.ukim.mk.lab.model.User;
 import mk.finki.ukim.mk.lab.service.Implement.MovieServiceImplement;
 import mk.finki.ukim.mk.lab.service.Implement.ProductionServiceImplement;
 import mk.finki.ukim.mk.lab.service.Implement.TicketOrderServiceImplement;
@@ -27,7 +26,7 @@ public class MovieController {
     }
 
     @GetMapping("")
-    public String getMoviesPage(@RequestParam(required = false) String error, Model model)
+    public String getMoviesPage(HttpServletRequest request, @RequestParam(required = false) String error, Model model)
     {
         if(error != null)
         {
@@ -38,6 +37,7 @@ public class MovieController {
             model.addAttribute("hasError", false);
         }
         model.addAttribute("Movies", movieServiceImplement.listAll());
+        model.addAttribute("User", (User)request.getSession().getAttribute("User"));
 
         return "listMovies";
     }

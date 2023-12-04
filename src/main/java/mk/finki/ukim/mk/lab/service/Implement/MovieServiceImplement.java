@@ -1,11 +1,12 @@
 package mk.finki.ukim.mk.lab.service.Implement;
 
-import mk.finki.ukim.mk.lab.DB.InMemoryDB;
+import jakarta.transaction.Transactional;
 import mk.finki.ukim.mk.lab.model.Movie;
-import mk.finki.ukim.mk.lab.model.Production;
 import mk.finki.ukim.mk.lab.model.exceptions.InvalidMovieException;
-import mk.finki.ukim.mk.lab.repository.MovieRepository;
-import mk.finki.ukim.mk.lab.repository.ProductionRepository;
+import mk.finki.ukim.mk.lab.repository.jpa.MovieRepository;
+import mk.finki.ukim.mk.lab.repository.jpa.ProductionRepository;
+import mk.finki.ukim.mk.lab.repository.old.InMemoryMovieRepository;
+import mk.finki.ukim.mk.lab.repository.old.InMemoryProductionRepository;
 import mk.finki.ukim.mk.lab.service.MovieService;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public class MovieServiceImplement implements MovieService {
 
     private final ProductionRepository productionRepository;
-    MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
     public MovieServiceImplement(MovieRepository movieRepository, ProductionRepository productionRepository)
     {
         this.movieRepository = movieRepository;
@@ -28,53 +29,55 @@ public class MovieServiceImplement implements MovieService {
     }
 
     @Override
+    @Transactional
     public Movie saveMovie(String title, String summary, Double rating, Long productionId) throws InvalidMovieException {
         if(title.isEmpty() || summary.isEmpty() || rating.isNaN() || productionId == null)
         {
             throw new InvalidMovieException();
         }
-        Movie m = new Movie(title, summary, rating, productionRepository.findbyId(productionId).get());
-        movieRepository.saveMovie(m);
+        Movie m = new Movie(title, summary, rating, productionRepository.findById(productionId).get());
+        movieRepository.save(m);
         return m;
     }
 
     @Override
     public Movie findbyId(Long id) {
-        return movieRepository.getbyId(id);
+        return movieRepository.findById(id).orElse(null);
     }
 
     @Override
+    @Transactional
     public Movie editMovie(String title, String summary, Double rating, Long productionId, Long movieId) throws InvalidMovieException {
         if(title.isEmpty() || summary.isEmpty() || rating.isNaN() || productionId == null || movieId == null)
         {
             throw new InvalidMovieException();
         }
-        Movie m = movieRepository.getbyId(movieId);
+        Movie m = movieRepository.findById(movieId).get();
         m.setTitle(title);
         m.setSummary(summary);
         m.setRating(rating);
-        m.setProduction(productionRepository.findbyId(productionId).get());
-        movieRepository.editMovie(m);
+        m.setProduction(productionRepository.findById(productionId).get());
+        movieRepository.save(m);
         return m;
     }
 
     @Override
+    @Transactional
     public void deleteMovie(Long id) throws NullPointerException {
         if(id == null)
         {
             throw new NullPointerException();
         }
-        Movie m = movieRepository.getbyId(id);
-        movieRepository.deleteMovie(m);
+        movieRepository.deleteById(id);
     }
 
     @Override
     public List<Movie> searchMovies(String text) {
-        return movieRepository.searchMovies(text);
+        return movieRepository.findAllByTitleContaining(text);
     }
 
     @Override
     public Movie findFirst(String text) {
-        return movieRepository.firstorDefault(text);
+        return movieRepository.findFirstByTitle(text);
     }
 }

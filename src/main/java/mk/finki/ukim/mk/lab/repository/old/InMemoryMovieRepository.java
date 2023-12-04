@@ -1,15 +1,14 @@
-package mk.finki.ukim.mk.lab.repository;
+package mk.finki.ukim.mk.lab.repository.old;
 
 import mk.finki.ukim.mk.lab.DB.InMemoryDB;
 import mk.finki.ukim.mk.lab.model.Movie;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class MovieRepository {
+public class InMemoryMovieRepository {
 
     public List<Movie> findAll()
     {

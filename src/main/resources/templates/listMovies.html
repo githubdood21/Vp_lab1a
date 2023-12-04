@@ -19,14 +19,15 @@
         <input type="text" id="SearchMovie" name="SearchMovie">
         <input form="SearchForm" type="submit" value="Submit">
     </form>
-    <form id="MovieForm" th:method="POST" th:action="@{/ticketOrder}">
+    <form id="MovieForm" th:method="POST" th:action="@{/cart/addtocart}">
+        <input th:if="${cart != null}" name="CartIdf" required id="CartIdf" type="hidden" th:value="${cart.getId()}">
         <h2>Choose movie:</h2>
         <!-- Display radio buttons for each movie,
                 the value should be the movie title
                 and the displayed text should be Title: <movie_title>, Summary:<movie_summary>, Rating: <movie_rating> -->
         <ul>
             <li th:each="Movie : ${Movies}">
-                <input name="MovieSelect" type="radio" th:value="${Movie.getTitle()}">
+                <input th:if="${cart != null}" name="MovieSelect" type="radio" th:value="${Movie.getTitle()}">
                 Title: <th:block th:text="${Movie.getTitle()}"></th:block>,
                 Summary: <th:block th:text="${Movie.getSummary()}"></th:block>,
                 Rating: <th:block th:text="${Movie.getRating()}"></th:block>,
@@ -35,12 +36,34 @@
                 <a th:href="@{'/movies/delete/{id}' (id=${Movie.getId()})}">Delete</a></li>
         </ul>
         <h2>Choose number of tickets:</h2>
-        <input type="number" name="numTickets" min="1" max="10"><br/>
+        <input th:if="${cart != null}" type="number" required name="numTickets" min="1" max="10"><br/>
         <br/>
-        <input form="MovieForm" type="submit" value="Submit">
+        <input th:if="${cart != null}" form="MovieForm" type="submit" value="Submit">
+    </form>
+    <form th:if="${cart != null}" id="CheckOutForm" th:method="POST" th:action="@{/cart/checkout}">
+        <input name="CartId" required id="CartId" type="hidden" th:value="${cart.getId()}">
+        <input form="CheckOutForm" type="submit" value="Checkout">
     </form>
     <a href="movies/add">Add a Movie</a>
     <p th:if="${hasError}" th:text="${errormessage}" style="color:red;"></p>
+
+    <p>
+        <a href="/user/register">Register User</a>
+    </p>
+    <p>
+        <a href="/user/login">Login User</a>
+    </p>
+    <p>
+        <a href="/user/logout">Logout User</a>
+    </p>
+    <p th:if="${User != null}">
+        <a href="/cart">User's Cart</a>
+    </p>
+
+    <p>Debug info:</p>
+    <p>User is <th:block th:if="${User != null}" th:text="${User.getUsername()}"></th:block></p>
+    <p>User BirthDay is <th:block th:if="${User != null}" th:text="${User.getDateOfBirth().toString()}"></th:block></p>
+    <p th:if="${cart != null}">Cart number is: <th:block th:text="${cart.getId()}"></th:block> and has <th:block th:text="${cart.getTicketOrders().size()}"></th:block> items.</p>
 </main>
 </body>
 </html>

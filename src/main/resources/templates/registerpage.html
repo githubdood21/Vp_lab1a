@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="AddUserForm" th:method="POST" th:action="@{/user/register}">
+    <p>
+        <label for="Username">Username:</label>
+        <input name="Username" required id="Username" type="text"/>
+    </p>
+
+    <p>
+        <label for="Name">Name:</label>
+        <input name="Name" required id="Name" type="text"/>
+    </p>
+
+    <p>
+        <label for="Surname">Surname:</label>
+        <input name="Surname" required id="Surname" type="text"/>
+    </p>
+
+    <p>
+        <label for="Password">Password:</label>
+        <input name="Password" required id="Password" type="password"/>
+    </p>
+
+    <p>
+        <label for="RepeatPassword">Repeat your Password:</label>
+        <input name="RepeatPassword" required id="RepeatPassword" type="password"/>
+    </p>
+
+    <p>
+        <label for="Date">Date of Birth:</label>
+        <input name="Date" required id="Date" type="date"/>
+    </p>
+
+    <p>
+        <input form="AddUserForm" type="submit" value="Submit"/>
+    </p>
+</form>
+</body>
+</html>

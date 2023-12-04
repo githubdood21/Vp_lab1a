@@ -1,18 +1,26 @@
 package mk.finki.ukim.mk.lab.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
+@Table(name = "ticketorders")
 public class TicketOrder {
-    public TicketOrder(String movieTitle, String clientName, String address, Long numberOfTickets)
+    public TicketOrder(String movieTitle, Long numberOfTickets, User user)
     {
         this.movieTitle = movieTitle;
-        this.clientName = clientName;
-        this.clientAddress = address;
         this.numberOfTickets = numberOfTickets;
+        this.user = user;
     }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
     private String movieTitle;
-    private String clientName;
-    private String clientAddress;
     private Long numberOfTickets;
+    @ManyToOne
+    private User user;
+    public TicketOrder() {
+
+    }
 }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Are you sure you want to delete cart number: <th:block th:text="${cart.getId()}"></th:block>? it has <th:block th:text="${cart.getTicketOrders().size()}"></th:block> items.</p>
+
+<form id="YesDelete" th:method="POST" th:action="@{/cart/delete/{id} (id=${cart.getId()})}">
+    <input form="YesDelete" type="submit" value="yes">
+</form>
+
+<form id="NoDelete" th:method="GET" th:action="@{/cart}">
+    <input form="NoDelete" type="submit" value="no">
+</form>
+</body>
+</html>

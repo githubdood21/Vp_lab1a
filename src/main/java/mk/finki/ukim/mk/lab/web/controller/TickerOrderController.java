@@ -1,15 +1,13 @@
 package mk.finki.ukim.mk.lab.web.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import mk.finki.ukim.mk.lab.model.User;
 import mk.finki.ukim.mk.lab.service.Implement.MovieServiceImplement;
 import mk.finki.ukim.mk.lab.service.Implement.ProductionServiceImplement;
 import mk.finki.ukim.mk.lab.service.Implement.TicketOrderServiceImplement;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/ticketOrder")
@@ -24,12 +22,11 @@ public class TickerOrderController {
         this.movieServiceImplement = movieServiceImplement;
         this.ticketOrderServiceImplement = ticketOrderServiceImplement;
     }
-    @PostMapping
-    public String getOrder(HttpServletRequest request, @RequestParam(required = false) String error, Model model)
+    @GetMapping("/{id}")
+    public String getOrder(HttpServletRequest request, @RequestParam(required = false) String error, Model model, @PathVariable String id)
     {
-        model.addAttribute("Movie", movieServiceImplement.findFirst(request.getParameter("MovieSelect")));
-        model.addAttribute("Tickets", request.getParameter("numTickets").toString());
         model.addAttribute("Ip", request.getRemoteAddr());
+        model.addAttribute("Ticket",ticketOrderServiceImplement.findById(Long.parseLong(id)));
         return "orderConfirmation";
     }
 }

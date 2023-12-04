@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form id="EditCartForm" th:method="POST" th:action="@{/cart/edit/{id} (id=${cart.getId()})}">
+    <p>
+        <label for="Date">Enter your desired Date:</label>
+        <input name="Date" required id="Date" type="datetime-local"/>
+    </p>
+
+    <p>
+        <input form="EditCartForm" type="submit" value="Submit"/>
+    </p>
+</form>
+</body>
+</html>

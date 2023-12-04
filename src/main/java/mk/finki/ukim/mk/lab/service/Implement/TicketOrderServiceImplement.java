@@ -1,27 +1,36 @@
 package mk.finki.ukim.mk.lab.service.Implement;
 
+import jakarta.transaction.Transactional;
 import mk.finki.ukim.mk.lab.model.TicketOrder;
-import mk.finki.ukim.mk.lab.repository.TicketOrderReopsitory;
+import mk.finki.ukim.mk.lab.model.User;
+import mk.finki.ukim.mk.lab.repository.jpa.TicketOrderRepository;
+import mk.finki.ukim.mk.lab.repository.old.InMemoryTicketOrderRepository;
 import mk.finki.ukim.mk.lab.service.TicketOrderService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TicketOrderServiceImplement implements TicketOrderService {
 
-    TicketOrderReopsitory ticketOrderReopsitory = new TicketOrderReopsitory();
+    private final TicketOrderRepository ticketOrderRepository;
 
-    public TicketOrderServiceImplement(TicketOrderReopsitory ticketOrderReopsitory)
+    public TicketOrderServiceImplement(TicketOrderRepository ticketOrderRepository)
     {
-        this.ticketOrderReopsitory = ticketOrderReopsitory;
+        this.ticketOrderRepository = ticketOrderRepository;
     }
     @Override
-    public TicketOrder placeOrder(String movieTitle, String clientName, String address, int numberOfTickets) {
+    @Transactional
+    public TicketOrder placeOrder(String movieTitle, int numberOfTickets, User user) {
         if(numberOfTickets < 1)
         {
             return null;
         }
-        TicketOrder t = new TicketOrder(movieTitle, clientName, address, Integer.toUnsignedLong(numberOfTickets));
-        ticketOrderReopsitory.addOrder(t);
+        TicketOrder t = new TicketOrder(movieTitle, Integer.toUnsignedLong(numberOfTickets), user);
+        ticketOrderRepository.saveAndFlush(t);
         return t;
+    }
+
+    @Override
+    public TicketOrder findById(Long Id) {
+        return ticketOrderRepository.findById(Id).get();
     }
 }
